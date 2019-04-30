@@ -2,6 +2,7 @@
   "name": "tweets-fe",
   "version": "0.0.0",
   "scripts": {
+    "now-build": "ng build --prod --output-path dist",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
