@@ -4,14 +4,13 @@
     Twitter</button>
   <button *ngIf="isLoggedIn" type="button" (click)="getTweets()" class="btn btn-primary">Fetch tweets from
     Database</button>
-    <button *ngIf="isLoggedIn" style="float: right" type="button" (click)="logOut()" class="btn btn-primary">Log
-        Out</button>
-  </div>
+  <button *ngIf="isLoggedIn" style="float: right" type="button" (click)="logOut()" class="btn btn-primary">Log
+    Out</button>
+</div>
 
 <div *ngIf="isLoggedIn">
   <div class="col s12">
-    
-    <div class="from_to col s12">
+    <div class="from_to ">
       <div class="row">
         <div class="col s5">
           <label>From:</label>
@@ -26,13 +25,19 @@
         </div>
       </div>
     </div>
-    <label>
+    <div>
       <input class="form-control" [(ngModel)]="searchText" type="text" placeholder="Search" aria-label="Search Tweets"
         style="width: 400px; margin-left: 40px; float: left;">
       <button style="float: left;" (click)="searchTweet()" class="btn btn-primary">Search</button>
-      <input (click)="getFavourites()" id="chkval" type="checkbox" />
-      <span>Show only favourites Tweets</span>
-    </label>
+    </div>
+    <div style="float: left">
+      <p>
+        <label>
+          <input (click)="getFavourites()" id="chkval" type="checkbox" />
+          <span>Show only favourites Tweets</span>
+        </label>
+      </p>
+    </div>
   </div>
 
   <div *ngFor="let item of tweetsArray;let i=index" class="row">
@@ -61,19 +66,19 @@
 <!-- loader -->
 <div class="custom-overlay sidebar-overlay active" *ngIf="loading"></div>
 <div *ngIf="loading" class="spinner">
-  <svg version="1.1" id="L5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-    viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
+  <svg version="1.1" id="L5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+    y="0px" viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
     <circle fill="#4c5d62" stroke="none" cx="6" cy="50" r="6">
-      <animateTransform attributeName="transform" dur="1s" type="translate" values="0 15 ; 0 -15; 0 15" repeatCount="indefinite"
-        begin="0.1" />
+      <animateTransform attributeName="transform" dur="1s" type="translate" values="0 15 ; 0 -15; 0 15"
+        repeatCount="indefinite" begin="0.1" />
     </circle>
     <circle fill="#4c5d62" stroke="none" cx="30" cy="50" r="6">
-      <animateTransform attributeName="transform" dur="1s" type="translate" values="0 10 ; 0 -10; 0 10" repeatCount="indefinite"
-        begin="0.2" />
+      <animateTransform attributeName="transform" dur="1s" type="translate" values="0 10 ; 0 -10; 0 10"
+        repeatCount="indefinite" begin="0.2" />
     </circle>
     <circle fill="#4c5d62" stroke="none" cx="54" cy="50" r="6">
-      <animateTransform attributeName="transform" dur="1s" type="translate" values="0 5 ; 0 -5; 0 5" repeatCount="indefinite"
-        begin="0.3" />
+      <animateTransform attributeName="transform" dur="1s" type="translate" values="0 5 ; 0 -5; 0 5"
+        repeatCount="indefinite" begin="0.3" />
     </circle>
   </svg>
 </div>
