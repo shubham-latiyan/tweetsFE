@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  API: "http://localhost:3500/"
+  API: "https://tweetsbe-apavqerpwe.now.sh/"
 };
