@@ -21,8 +21,8 @@ export class TweetsService {
   deleteTweet(tweet_id){
     return this.http.delete(environment.API + `api/tweets/${tweet_id}`)
   }
-  searchTweet(keyword, from, to){
-    return this.http.get(environment.API + `api/tweets/search/${keyword}/filter/${from}/${to}`)
+  searchTweet(id, keyword, from, to){
+    return this.http.get(environment.API + `api/tweets/search/${id}/${keyword}/filter/${from}/${to}`)
   }
   makeFavourite(id){
     return this.http.post(environment.API + `api/tweets/favourite`, {id})

@@ -116,9 +116,10 @@ export class AppComponent implements OnInit {
   searchTweet() {
     this.from = $('#fromDate').val();
     this.to = $('#toDate').val();
+    let id = localStorage.getItem('user_id')
     if (this.from == "") this.from = undefined
     if (this.to == "") this.to = undefined
-    this._ts.searchTweet(this.searchText, this.from, this.to).subscribe((data: any) => {
+    this._ts.searchTweet(id, this.searchText, this.from, this.to).subscribe((data: any) => {
       if (data.success) {
         this.tweetsArray = data.data;
       }
