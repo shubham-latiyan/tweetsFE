@@ -13,16 +13,19 @@ export class TweetsService {
     console.log('body:', body)
     return this.http.post(environment.API + 'api/tweets', body)
   }
-  getTweets(user_id) {
-    return this.http.get(environment.API + `api/tweets/${user_id}`)
+  getTweets(user_id, value) {
+    return this.http.get(environment.API + `api/tweets/${user_id}/${value}`)
   }
   editTweet(tweet_id, tweetContent) {
-    return this.http.patch(environment.API + `api/tweets/${tweet_id}`, { tweetContent })
+    return this.http.patch(environment.API + `api/tweets/edit/${tweet_id}`, { tweetContent })
   }
   deleteTweet(tweet_id){
     return this.http.delete(environment.API + `api/tweets/${tweet_id}`)
   }
-  searchTweet(keyword){
-    return this.http.get(environment.API + `api/tweets/search/${keyword}`)
+  searchTweet(keyword, from, to){
+    return this.http.get(environment.API + `api/tweets/search/${keyword}/filter/${from}/${to}`)
+  }
+  makeFavourite(id){
+    return this.http.post(environment.API + `api/tweets/favourite`, {id})
   }
 }

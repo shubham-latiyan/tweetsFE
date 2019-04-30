@@ -1,0 +1,9 @@
+
+.from_to { width:900px; height:auto; float:left; }
+.from_to label { width:auto; height:auto; float:left; color:#282828; font:14px/32px 'Poppins'; }
+.from_to input[type=text]:not(.browser-default) { width:54%; height:32px; float:right; color:#282828; font:14px/32px 'Poppins'; border:1px solid #ececec; padding:0 30px 0 10px; }
+ul.drop-down{max-width:240px}
+ul.drop-down li{max-width:100%;overflow:hidden}
+ul.drop-down li a,ul.drop-down li a:link,ul.drop-down li a:visited{font-size:11px}
+span.action-menu.action_menu{border:2px solid #ffb64d;border-radius:5px;width:25px;height:25px;float:right;text-align:center;font-size:18px;line-height:24px;cursor:pointer;color:#282828;font-weight:500;position:relative}
+span.action-menu.action_menu img{content:'';position:absolute;left:0;right:0;top:0;bottom:0;margin:auto;max-width:90%}

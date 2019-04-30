@@ -1,39 +1,61 @@
-<div style="text-align:center">
-  <button *ngIf="!isLoggedIn" type="button" (click)="handleClick($event)" class="btn btn-primary">Sign in with
+<div style="text-align:left;margin-top: 20px;margin-bottom: 20px">
+  <button *ngIf="!isLoggedIn" type="button" (click)="handleClick($event)" style="margin-left: 40px"
+    class="btn btn-primary">Sign in with
     Twitter</button>
   <button *ngIf="isLoggedIn" type="button" (click)="getTweets()" class="btn btn-primary">Fetch tweets from
     Database</button>
-</div>
+    <button *ngIf="isLoggedIn" style="float: right" type="button" (click)="logOut()" class="btn btn-primary">Log
+        Out</button>
+  </div>
 
-<input class="form-control" [(ngModel)]="searchText" type="text" placeholder="Search" aria-label="Search" style="width: 500px; margin-left: 40px">
+<div *ngIf="isLoggedIn">
+  <div class="col s12">
+    <input class="form-control" [(ngModel)]="searchText" type="text" placeholder="Search" aria-label="Search Tweets"
+      style="width: 400px; margin-left: 40px; display: inline-block;">
+    <button style="display: inline-block" (click)="searchTweet()" class="btn btn-primary">Search</button>
 
-<button (click)="searchTweet()" class="btn btn-primary">Search</button>
-
-<button *ngIf="isLoggedIn" style="float: right" type="button" (click)="logOut()" class="btn btn-primary">Log
-  Out</button>
-
-<div *ngFor="let item of tweetsArray;let i=index" class="custom">
-  <div class="card text-white bg-info mb-3" style="max-width: 70rem; margin-left: 60px">
-    <div class="card-body">
-      <p class="card-text">{{ i+1 }}) {{item?.text}} <img style="float:right" src="../assets/images/star.png" /></p>
-      
-      <div *ngIf="activeEdit == i" class="col">
-        <input type="text" [(ngModel)]="tweetContent" class="form-control">
+    <div class="from_to col s12">
+      <div class="row">
+        <div class="col s5">
+          <label>From:</label>
+          <input type="text" id="fromDate">
+        </div>
+        <div class="col s5">
+          <label>To:</label>
+          <input type="text" disabled id="toDate">
+        </div>
+        <div class="col s2">
+          <button (click)="searchTweet()" class="btn color_blue"> go</button>
+        </div>
       </div>
-      <div class="btn-group">
-        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" style="float: right"
-          id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Edit / Delete
-        </button>
-        <button *ngIf="activeEdit == i" (click)="saveTweet(i)" class="btn btn-primary">Save</button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-          <a class="dropdown-item" (click)="editTweet(i, item?._id, item?.text)">Edit</a>
-          <a class="dropdown-item" (click)="deleteTweet(i, item?._id)">Delete</a>
+    </div>
+    <label>
+      <input (click)="getFavourites()" id="chkval" type="checkbox" />
+      <span>Show only favourites Tweets</span>
+    </label>
+  </div>
+
+  <div *ngFor="let item of tweetsArray;let i=index" class="row">
+    <div class="col s12 m6" style="display: inline-block">
+      <div class="card blue ">
+        <div class="card-content white-text" style="height: 114x">
+          <p>{{ i+1 }}) {{item?.text}}
+            <img (click)="editTweet(i, item?._id, item?.text)" style="margin-left: 15px" src="../assets/images/edit.png"
+              height="18" width="18">
+            <img (click)="deleteTweet(i, item?._id)" style="margin-left: 15px" src="../assets/images/delete.png"
+              height="18" width="18">
+            <img *ngIf="!item?.isFavourite" (click)="makeFavourite(i, item?._id)" src="../assets/images/star.png"
+              style="float: right">
+            <img *ngIf="item?.isFavourite" (click)="makeFavourite(i, item?._id)" src="../assets/images/favourite.png"
+              style="float: right">
+          </p>
+          <button *ngIf="activeEdit == i" (click)="saveTweet(i)" class="btn btn-primary">Save</button>
+          <div *ngIf="activeEdit == i" class="col">
+            <input type="text" [(ngModel)]="tweetContent" class="form-control" style="width: 337px;">
+          </div>
         </div>
       </div>
     </div>
   </div>
-
 </div>
-
 <router-outlet></router-outlet>
