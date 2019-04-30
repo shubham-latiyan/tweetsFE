@@ -10,7 +10,6 @@ export class TweetsService {
   constructor(private http: HttpClient) { }
 
   saveTweets(body) {
-    console.log('body:', body)
     return this.http.post(environment.API + 'api/tweets', body)
   }
   getTweets(user_id, value) {

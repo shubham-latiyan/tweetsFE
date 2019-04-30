@@ -19,6 +19,9 @@ export class AppComponent implements OnInit {
   activeEdit: number;
   tweetContent: any;
   searchText: String;
+  screen_name: String;
+  from: any;
+  to: any;
 
   ngOnInit() {
     const oauthScript = document.createElement('script');
@@ -33,7 +36,7 @@ export class AppComponent implements OnInit {
       this.isLoggedIn = false;
     }
     this._cdr.detectChanges();
-    
+
     $('#fromDate').datepicker({ maxDate: new Date() }).on('input change', function (e) {
       $('#toDate').val('');
       const date = new Date(e.target.value);
@@ -44,34 +47,33 @@ export class AppComponent implements OnInit {
       }
       $('#toDate').datepicker({ maxDate: new Date(), minDate: date });
     });
-    document.addEventListener('DOMContentLoaded', function() {
-      var elems = document.querySelectorAll('.dropdown-trigger');
-      var instances = M.Dropdown.init(elems);
-    });
   }
 
 
   constructor(private _ts: TweetsService, private _cdr: ChangeDetectorRef) { }
 
-  handleClick(e) {
+  async handleClick(e) {
     e.preventDefault();
     _window().OAuth.initialize('eTriACS9MK3iG3GjJxEfVvcFJ_I');
-    _window().OAuth.popup('twitter').done((twitter) => {
-      twitter.me().done((data) => {
+    _window().OAuth.popup('twitter').done(async (twitter) => {
+      await twitter.me().done((data) => {
+        console.log('data:', data)
+        this.screen_name = data.alias;
+        console.log('screen_name:', this.screen_name)
         if (data.id != null) {
           localStorage.setItem('user_id', data.id)
           this.isLoggedIn = true;
         }
       })
-      // twitter.get('/1.1/account/verify_credentials.json?include_email=true').then(data => {
-      //   // console.log('self data:', data);
+      //  twitter.get('/1.1/account/verify_credentials.json?include_email=true').then(data => {
+      //   console.log('self data:', data);
       // })
 
-      twitter.get('/1.1/statuses/user_timeline.json?screen_name=Shubhamlatiyan').then(data => {
+      await twitter.get(`/1.1/statuses/user_timeline.json?screen_name=${this.screen_name}`).then(data => {
         console.log('data*********:', data);
         if (data.length > 0) {
           this._ts.saveTweets(data).subscribe((data: any) => {
-            if(data.success){
+            if (data.success) {
               window.alert("Tweets are fetched from twitter Api and saved to DB")
             }
           })
@@ -94,7 +96,7 @@ export class AppComponent implements OnInit {
   }
   saveTweet(index) {
     this._ts.editTweet(this.tweetId, this.tweetContent).subscribe((data: any) => {
-      if(data.success){
+      if (data.success) {
         this.tweetsArray[index].text = this.tweetContent
         this.activeEdit = Math.random();
       }
@@ -102,45 +104,48 @@ export class AppComponent implements OnInit {
   }
   deleteTweet(index, id) {
     this._ts.deleteTweet(id).subscribe((data: any) => {
-      if(data.success){
+      if (data.success) {
         this.tweetsArray.splice(index, 1);
         this.activeEdit = Math.random();
       }
     })
   }
   searchTweet() {
-    const from = $('#fromDate').val();
-    const to = $('#toDate').val();
-    this._ts.searchTweet(this.searchText, from, to).subscribe((data: any) => {
+    this.from = $('#fromDate').val();
+    this.to = $('#toDate').val();
+    if (this.from == "") this.from = undefined
+    if (this.to == "") this.to = undefined
+    this._ts.searchTweet(this.searchText, this.from, this.to).subscribe((data: any) => {
       if (data.success) {
         this.tweetsArray = data.data;
       }
     })
   }
-  makeFavourite(index, id){
-    this._ts.makeFavourite(id).subscribe((data: any)=>{
-      if(data.success){
+  makeFavourite(index, id) {
+    this._ts.makeFavourite(id).subscribe((data: any) => {
+      if (data.success) {
         this.tweetsArray[index].isFavourite = !this.tweetsArray[index].isFavourite;
       }
 
     })
   }
-  getFavourites(){
+  getFavourites() {
     let value = $('#chkval').prop("checked")
-    if(value){
+    if (value) {
       let id = localStorage.getItem('user_id')
       this._ts.getTweets(id, true).subscribe((data: any) => {
-        if(data.success){
+        if (data.success) {
           this.tweetsArray = data.data;
         }
       })
     }
-    else if(!value){
+    else if (!value) {
       this.getTweets();
     }
   }
   logOut() {
     this.isLoggedIn = false;
+    this.tweetsArray = [];
     if (localStorage.getItem('user_id')) {
       localStorage.removeItem('user_id')
     }
