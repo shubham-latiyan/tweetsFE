@@ -12,6 +12,7 @@ function _window(): any {
 })
 export class AppComponent implements OnInit {
   isLoggedIn: Boolean = false;
+  loading: Boolean = false;
   user_id: String;
   tweetsArray: Array<any>;
   isEdit: Boolean = false;
@@ -53,6 +54,7 @@ export class AppComponent implements OnInit {
   constructor(private _ts: TweetsService, private _cdr: ChangeDetectorRef) { }
 
   async handleClick(e) {
+    this.loading = true;
     e.preventDefault();
     _window().OAuth.initialize('eTriACS9MK3iG3GjJxEfVvcFJ_I');
     _window().OAuth.popup('twitter').done(async (twitter) => {
@@ -74,6 +76,7 @@ export class AppComponent implements OnInit {
         if (data.length > 0) {
           this._ts.saveTweets(data).subscribe((data: any) => {
             if (data.success) {
+              this.loading = false;
               window.alert("Tweets are fetched from twitter Api and saved to DB")
             }
           })

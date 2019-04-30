@@ -2,3 +2,26 @@
 .from_to { width:900px; height:auto; float:left; }
 .from_to label { width:auto; height:auto; float:left; color:#282828; font:14px/32px 'Poppins'; }
 .from_to input[type=text]:not(.browser-default) { width:54%; height:32px; float:right; color:#282828; font:14px/32px 'Poppins'; border:1px solid #ececec; padding:0 30px 0 10px; }
+.spinner {
+    width: 100px;
+    height: 100px;
+    margin: 100px auto;
+    position: absolute;
+    top: 30%;
+    left: 50%;             
+}
+.custom-overlay.active{display: block}
+.custom-overlay{
+    position: fixed; 
+    display: none;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index:9;
+    background-color: #065170;
+    opacity: 0.5;
+}
+.custom-overlay.sidebar-overlay {
+    z-index: 1100;
+}
